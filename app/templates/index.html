@@ -1,43 +1,70 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>RAG Chatbot</title>
-  <link rel="stylesheet" href="{{ url_for('static', path='styles.css') }}">
-</head>
-<body>
 
-<div class="container">
 
-  <h1>📄 RAG Chatbot</h1>
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--  <meta charset="UTF-8">-->
+<!--  <title>RAG Chatbot</title>-->
+<!--  <link rel="stylesheet" href="{{ url_for('static', path='styles.css') }}">-->
+<!--</head>-->
+<!--<body>-->
 
-  <!-- Document Upload -->
-  <section class="card">
-    <h2>Upload Document</h2>
-    <input type="file" id="fileInput">
-    <button onclick="uploadDocument()">Upload</button>
-    <p id="uploadStatus" class="status"></p>
-  </section>
+<!--<div class="container">-->
 
-  <!-- Chat -->
-  <section class="card">
-    <h2>Chat</h2>
+<!--  <h1>📄 RAG Chatbot</h1>-->
 
-    <div id="chatBox" class="chat-box"></div>
+<!--  &lt;!&ndash; Document Upload &ndash;&gt;-->
+<!--  <section class="card">-->
+<!--    <h2>Upload Document</h2>-->
+<!--    <input type="file" id="fileInput">-->
+<!--    <button onclick="uploadDocument()">Upload</button>-->
+<!--    <p id="uploadStatus" class="status"></p>-->
+<!--  </section>-->
 
-    <div class="chat-input">
-      <input
-        type="text"
-        id="messageInput"
-        placeholder="Type your message..."
-        onkeydown="handleEnter(event)"
-      />
-      <button onclick="sendMessage()">Send</button>
-    </div>
-  </section>
+<!--  &lt;!&ndash; Chat (WebSocket) &ndash;&gt;-->
+<!--  <section class="card">-->
+<!--    <h2>Chat (WebSocket)</h2>-->
+<!--    <div id="chatBoxWS" class="chat-box"></div>-->
 
-</div>
+<!--    <div class="chat-input">-->
+<!--      <input-->
+<!--        type="text"-->
+<!--        id="messageInputWS"-->
+<!--        placeholder="Ask via WebSocket..."-->
+<!--        onkeydown="handleEnterWS(event)"-->
+<!--        autocomplete="off"-->
+<!--      />-->
+<!--      <button onclick="sendMessageWS()">Send</button>-->
+<!--    </div>-->
+<!--  </section>-->
 
-<script src="{{ url_for('static', path='app.js') }}"></script>
-</body>
-</html>
+<!--  &lt;!&ndash; Chat (Socket.IO) &ndash;&gt;-->
+<!--  <section class="card">-->
+<!--    <h2>Chat (Socket.IO)</h2>-->
+<!--    <div id="chatBoxIO" class="chat-box"></div>-->
+
+<!--    <div class="chat-input">-->
+<!--      <input-->
+<!--        type="text"-->
+<!--        id="messageInputIO"-->
+<!--        placeholder="Ask via Socket.IO..."-->
+<!--        onkeydown="handleEnterIO(event)"-->
+<!--        autocomplete="off"-->
+<!--      />-->
+<!--      <button onclick="sendMessageIO()">Send</button>-->
+<!--    </div>-->
+<!--  </section>-->
+
+<!--</div>-->
+
+<!--&lt;!&ndash;&lt;!&ndash; Socket.IO client (must load BEFORE app.js) &ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;<script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>&ndash;&gt;-->
+
+<!--&lt;!&ndash;&lt;!&ndash; App logic &ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;<script src="{{ url_for('static', path='app.js') }}"></script>&ndash;&gt;-->
+
+<!--<script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>-->
+<!--<script src="/static/app.js"></script>-->
+
+<!--</body>-->
+<!--</html>-->
