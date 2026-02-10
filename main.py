@@ -3,7 +3,7 @@ from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.routes.chatbot_route import chat_router
+from app.routes.chatbot_route import chat_ws_router
 from app.routes.document_upload_route import router as document_router
 from app.database.sqllite_db import engine, Base
 
@@ -43,5 +43,5 @@ def home(request: Request):
     )
 
 # API routes
-app.include_router(chat_router)
+app.include_router(chat_ws_router)
 app.include_router(document_router)

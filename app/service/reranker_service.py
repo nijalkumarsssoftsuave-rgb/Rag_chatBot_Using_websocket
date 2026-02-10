@@ -49,7 +49,7 @@ def rerank_chunks(
         reverse=True
     )
 
-    print(f"\nRANKED:{ranked}")
+    # print(f"\nRANKED:{ranked}")
 
     return [text for text, _ in ranked[:top_n]]
 

@@ -10,7 +10,8 @@ def generate_answer(
     question: str,
     summaries: list,        # ChatSummary objects
     recent_chats: list,     # ChatHistory objects
-    context: str
+    context: str,
+stream: bool = False
 ):
 
     history_text = ""
@@ -60,14 +61,24 @@ Question:
 
 Write a clear, professional answer.
 """
+    if stream:
+        with client.responses.stream(
+                model="gpt-4o-mini",
+                input=prompt,  # ✅ USE FULL PROMPT
+                temperature=0.2,
+        ) as stream_response:
 
-    stream = client.responses.stream(
+            for event in stream_response:
+                if event.type == "response.output_text.delta" and event.delta:
+                    yield event.delta  # ✅ ALWAYS STRING
+
+        return
+
+        # 🔥 NORMAL MODE
+    response = client.responses.create(
         model="gpt-4o-mini",
         input=prompt,
         temperature=0.2
     )
 
-    for event in stream:
-        if event.type == "response.output_text.delta":
-            yield event.delta
-    # return response.output_text.strip() if response.output_text else "No answer generated."
+    return response.output_text.strip() if response.output_text else "No answer generated."
