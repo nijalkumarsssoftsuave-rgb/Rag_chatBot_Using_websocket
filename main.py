@@ -1,76 +1,18 @@
-# from fastapi import FastAPI, Request
-# from fastapi.templating import Jinja2Templates
-# from fastapi.staticfiles import StaticFiles
-# from fastapi.middleware.cors import CORSMiddleware
-#
-# from app.routes.chatbot_route import chat_ws_router
-# from app.routes.document_upload_route import router as document_router
-# from app.database.sqllite_db import engine, Base
-# # from app.sockets.socket_manger import socket_app
-# from app.routes.socketio import socketio_app
-# # Create DB tables
-# Base.metadata.create_all(bind=engine)
-#
-# app = FastAPI(
-#     title="RAG Chatbot",
-#     version="1.0.0"
-# )
-#
-# # CORS (safe for local dev & frontend JS)
-# app.add_middleware(
-#     CORSMiddleware,
-#     allow_origins=["*"],
-#     allow_credentials=True,
-#     allow_methods=["*"],
-#     allow_headers=["*"],
-# )
-#
-# # Static files (JS, CSS)
-# app.mount(
-#     "/static",
-#     StaticFiles(directory="app/static"),
-#     name="static"
-# )
-# # app.mount("/socket.io", socket_app)
-#
-# # Templates (Jinja2)
-# templates = Jinja2Templates(directory="app/templates")
-#
-# # Home page
-# @app.get("/", tags=["UI"])
-# def home(request: Request):
-#     return templates.TemplateResponse(
-#         "index.html",
-#         {"request": request}
-#     )
-# app.mount("/socketio/chat", socketio_app)
-#
-# # API routes
-# app.include_router(chat_ws_router)
-# app.include_router(document_router)
-#
-#
-
 from fastapi import FastAPI, Request
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
+import socketio
 
-from app.routes.chatbot_route import chat_ws_router
 from app.routes.document_upload_route import router as document_router
 from app.database.sqllite_db import engine, Base
-# from app.routes.socketio import socketio_app
+from app.sockets.socket_file import sio
 
-# Create DB tables
 Base.metadata.create_all(bind=engine)
 
-app = FastAPI(
-    title="RAG Chatbot",
-    version="1.0.0"
-)
+fastapi_app = FastAPI(title="RAG Chatbot")
 
-# CORS
-app.add_middleware(
+fastapi_app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
     allow_credentials=True,
@@ -78,20 +20,19 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Static files
-app.mount("/static", StaticFiles(directory="app/static"), name="static")
+fastapi_app.mount("/static", StaticFiles(directory="app/static"), name="static")
 
-# Templates
-# templates = Jinja2Templates(directory="app/templates")
+templates = Jinja2Templates(directory="app/templates")
 
-# Home page
-# @app.get("/", tags=["UI"])
-# def home(request: Request):
-#     return templates.TemplateResponse("index.html", {"request": request})
+@fastapi_app.get("/")
+def home(request: Request):
+    return templates.TemplateResponse("index.html", {"request": request})
 
-# 🔹 Socket.IO (MUST be this path)
-# app.mount("/socket.io", socketio_app)
+fastapi_app.include_router(document_router)
 
-# API routes
-app.include_router(chat_ws_router)
-app.include_router(document_router)
+# ✅ Critical Line
+app = socketio.ASGIApp(
+    sio,
+    other_asgi_app=fastapi_app,
+    socketio_path="socket.io"
+)

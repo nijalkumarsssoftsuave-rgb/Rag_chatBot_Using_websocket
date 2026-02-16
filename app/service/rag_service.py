@@ -50,10 +50,7 @@ def chat_with_rag_stream(db, question: str):
     rewritten_query = rewrite_query(question, chat_history)
     raw_chunks = retrieve_context(rewritten_query, top_k=20)
 
-    reranked_chunks = (
-        rerank_chunks(rewritten_query, raw_chunks, top_n=5)
-        if raw_chunks else []
-    )
+    reranked_chunks = (rerank_chunks(rewritten_query, raw_chunks, top_n=5) if raw_chunks else [])
 
     context = "\n\n".join(reranked_chunks)
     summaries, recent_chats = get_context_for_llm(db)
@@ -68,3 +65,4 @@ def chat_with_rag_stream(db, question: str):
 
     for token in token_generator:
         yield token  # already string
+

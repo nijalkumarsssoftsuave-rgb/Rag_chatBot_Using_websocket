@@ -8,7 +8,7 @@ client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 def rewrite_query(user_input: str, chat_history: list[dict]) -> str:
     """
-    Converts short replies like 'yes', 'tell me more'
+    Converts short replies like 'yes', 'tell me more' , 'No'
     into a full standalone question.
     """
 
@@ -24,6 +24,7 @@ You are a query rewriter for a document-based assistant.
 
 Conversation so far:
 {history_text}
+
 
 User reply:
 "{user_input}"
