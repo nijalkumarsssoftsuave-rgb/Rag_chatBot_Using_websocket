@@ -41,15 +41,11 @@ def rerank_chunks(
 
     scores = reranker.predict(pairs)
 
-    # print(f"\nSCORES:{scores}")
-
     ranked = sorted(
         zip(texts, scores),
         key=lambda x: x[1],
         reverse=True
     )
-
-    # print(f"\nRANKED:{ranked}")
 
     return [text for text, _ in ranked[:top_n]]
 

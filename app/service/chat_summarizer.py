@@ -40,5 +40,4 @@ Conversation:
     db.add(summary)
     db.commit()
     db.refresh(summary)
-
     return summary
